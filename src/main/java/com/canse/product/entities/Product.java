@@ -20,8 +20,7 @@ public class Product {
         super();
     }
 
-    public Product(Long id, String nameProduct, Double priceProduct, Date dateCreated) {
-        this.id = id;
+    public Product(String nameProduct, Double priceProduct, Date dateCreated) {
         this.nameProduct = nameProduct;
         this.priceProduct = priceProduct;
         this.dateCreated = dateCreated;
