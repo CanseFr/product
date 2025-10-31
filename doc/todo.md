@@ -4,3 +4,4 @@ Inversion de controle
 Lien entre @Entity JPA @Id et #Generated Value
 @Generated Value strategy ...
 Migrer test vers h2
+Programme to interface practice spring
