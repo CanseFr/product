@@ -1,9 +1,6 @@
 package com.canse.product.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.util.Date;
 
@@ -15,6 +12,8 @@ public class Product {
     private String nameProduct;
     private Double priceProduct;
     private Date dateCreated;
+    @ManyToOne
+    private Category category;
 
     public Product() {
         super();
@@ -58,6 +57,14 @@ public class Product {
         this.dateCreated = dateCreated;
     }
 
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
     @Override
     public String toString() {
         return "Product{" +
@@ -65,6 +72,7 @@ public class Product {
                 ", nameProduct='" + nameProduct + '\'' +
                 ", priceProduct=" + priceProduct +
                 ", dateCreated=" + dateCreated +
+                ", category=" + category +
                 '}';
     }
 }
