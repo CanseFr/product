@@ -128,4 +128,41 @@ class ProductApplicationTests {
         assertTrue(all.stream().anyMatch(p -> p.getId().equals(p1.getId())));
         assertTrue(all.stream().anyMatch(p -> p.getId().equals(p2.getId())));
     }
+
+    @Test
+    @Rollback
+    void findByName_shouldReturnEntity() {
+        Product seed = productRepository.save(
+                Product.builder()
+                        .nameProduct("MacBook")
+                        .priceProduct(2999.00)
+                        .dateCreated(new Date()).build()
+        );
+
+        List<Product> found = productRepository.findByNameProduct(seed.getNameProduct());
+        assertEquals("MacBook", found.get(0).getNameProduct());
+        assertEquals(2999.00, found.get(0).getPriceProduct());
+    }
+
+    @Test
+    @Rollback
+    void findByNameCpntains_shouldReturnEntity() {
+        productRepository.save(
+                Product.builder()
+                        .nameProduct("MacBook Pro M4")
+                        .priceProduct(777.00)
+                        .dateCreated(new Date()).build()
+        );
+        productRepository.save(
+                Product.builder()
+                        .nameProduct("MacBook Pro M5")
+                        .priceProduct(666.00)
+                        .dateCreated(new Date()).build()
+        );
+
+        List<Product> found = productRepository.findByNameProductContains("Pro");
+        assertEquals(2, found.toArray().length);
+        assertEquals(777.00, found.get(0).getPriceProduct());
+        assertEquals(666.00, found.get(1).getPriceProduct());
+    }
 }
