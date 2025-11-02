@@ -146,7 +146,7 @@ class ProductApplicationTests {
 
     @Test
     @Rollback
-    void findByNameCpntains_shouldReturnEntity() {
+    void findByNameContains_shouldReturnEntities() {
         productRepository.save(
                 Product.builder()
                         .nameProduct("MacBook Pro M4")
@@ -164,5 +164,26 @@ class ProductApplicationTests {
         assertEquals(2, found.toArray().length);
         assertEquals(777.00, found.get(0).getPriceProduct());
         assertEquals(666.00, found.get(1).getPriceProduct());
+    }
+
+    @Test
+    @Rollback
+    void findByNameAndPrice_shouldReturnEntity() {
+        productRepository.save(
+                Product.builder()
+                        .nameProduct("MacBook")
+                        .priceProduct(777.00)
+                        .dateCreated(new Date()).build()
+        );
+        productRepository.save(
+                Product.builder()
+                        .nameProduct("MacBook")
+                        .priceProduct(666.00)
+                        .dateCreated(new Date()).build()
+        );
+
+        List<Product> found = productRepository.findByNameAndPrice("MacBook",666.00);
+        assertEquals(1, found.toArray().length);
+        assertEquals(666.00, found.get(0).getPriceProduct());
     }
 }
