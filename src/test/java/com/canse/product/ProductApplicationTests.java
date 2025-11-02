@@ -37,7 +37,11 @@ class ProductApplicationTests {
     @Test
     @Rollback
     void create_shouldPersistAndAssignId() {
-        Product product = new Product("Pc Dell", 2250.00, new Date());
+        Product product =
+                Product.builder()
+                        .nameProduct("Pc Dell")
+                        .priceProduct(2250.00)
+                        .dateCreated(new Date()).build();
         Product saved = productRepository.save(product);
 
         assertNotNull(saved.getId(), "L'ID doit être généré");
@@ -47,7 +51,12 @@ class ProductApplicationTests {
     @Test
     @Rollback
     void findById_shouldReturnEntity() {
-        Product seed = productRepository.save(new Product("MacBook", 2999.00, new Date()));
+        Product seed = productRepository.save(
+                Product.builder()
+                        .nameProduct("MacBook")
+                        .priceProduct(2999.00)
+                        .dateCreated(new Date()).build()
+        );
         Long id = seed.getId();
 
         Product found = productRepository.findById(id).orElseThrow();
@@ -58,7 +67,12 @@ class ProductApplicationTests {
     @Test
     @Rollback
     void update_shouldChangePrice() {
-        Product seed = productRepository.save(new Product("ThinkPad", 1900.00, new Date()));
+        Product seed = productRepository.save(
+                Product.builder()
+                        .nameProduct("ThinkPad")
+                        .priceProduct(1900.00)
+                        .dateCreated(new Date()).build()
+        );
         Long id = seed.getId();
 
         Product toUpdate = productRepository.findById(id).orElseThrow();
@@ -73,7 +87,12 @@ class ProductApplicationTests {
     @Test
     @Rollback
     void delete_shouldRemoveEntity() {
-        Product seed = productRepository.save(new Product("PC Gamer", 1500.00, new Date()));
+        Product seed = productRepository.save(
+                Product.builder()
+                        .nameProduct("PC Gamer")
+                        .priceProduct(1500.00)
+                        .dateCreated(new Date()).build()
+        );
         Long id = seed.getId();
 
         productRepository.deleteById(id);
@@ -87,8 +106,18 @@ class ProductApplicationTests {
     void findAll_shouldReturnAddedItems() {
         long before = productRepository.count();
 
-        Product p1 = productRepository.save(new Product("HP Pro", 999.00, new Date()));
-        Product p2 = productRepository.save(new Product("Asus ROG", 1899.00, new Date()));
+        Product p1 = productRepository.save(
+                Product.builder()
+                        .nameProduct("HP Pro")
+                        .priceProduct(999.00)
+                        .dateCreated(new Date()).build()
+        );
+        Product p2 = productRepository.save(
+                Product.builder()
+                        .nameProduct("Asus ROG")
+                        .priceProduct(1899.00)
+                        .dateCreated(new Date()).build()
+        );
 
         flushAndClear();
 
