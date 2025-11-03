@@ -18,6 +18,6 @@ public class Product {
     private String nameProduct;
     private Double priceProduct;
     private Date dateCreated;
-    @ManyToOne
+    @ManyToOne()
     private Category category;
 }

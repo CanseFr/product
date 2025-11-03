@@ -1,5 +1,6 @@
 package com.canse.product.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -17,6 +18,8 @@ public class Category {
     private Long id;
     private String name;
     private String description;
+
     @OneToMany(mappedBy = "category")
+    @JsonIgnore
     private List<Product> products;
 }

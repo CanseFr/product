@@ -1,4 +1,4 @@
-package com.canse.products.services;
+package com.canse.product.services;
 
 import com.canse.product.entities.Category;
 

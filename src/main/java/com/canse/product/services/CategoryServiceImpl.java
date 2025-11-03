@@ -1,9 +1,7 @@
-package com.canse.products.services;
+package com.canse.product.services;
 
 import com.canse.product.entities.Category;
-import com.canse.product.entities.Product;
 import com.canse.product.repos.CategoryRepository;
-import com.canse.product.repos.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -6,3 +6,5 @@ Impl interface avec option comme trie et autre
 
 Creation de methode dans l'interface qui etend de JPA pour beneficier de la detection de JPA vs
 Creation de methode dans le Service directement, (methode perso, ...)
+
+Controller requestApi en lien avec server.servlet.context-path=/product de application.properties
