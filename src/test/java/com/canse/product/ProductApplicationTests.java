@@ -1,6 +1,8 @@
 package com.canse.product;
 
+import com.canse.product.entities.Category;
 import com.canse.product.entities.Product;
+import com.canse.product.repos.CategoryRepository;
 import com.canse.product.repos.ProductRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -25,6 +27,9 @@ class ProductApplicationTests {
 
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     @PersistenceContext
     private EntityManager em;
@@ -185,5 +190,38 @@ class ProductApplicationTests {
         List<Product> found = productRepository.findByNameAndPrice("MacBook",666.00);
         assertEquals(1, found.toArray().length);
         assertEquals(666.00, found.get(0).getPriceProduct());
+    }
+
+    @Test
+    @Rollback
+    void findByCategory_shouldReturnEntity() {
+
+        Category cat1 = new Category();
+        Category cat2 = new Category();
+        cat1.setName("cat-1");
+        cat2.setName("cat-2");
+        categoryRepository.save(cat1);
+        categoryRepository.save(cat2);
+
+        productRepository.save(
+                Product.builder()
+                        .nameProduct("MacBook")
+                        .priceProduct(777.00)
+                        .category(cat1)
+                        .dateCreated(new Date()).build()
+        );
+        productRepository.save(
+                Product.builder()
+                        .nameProduct("MacBook")
+                        .priceProduct(666.00)
+                        .category(cat2)
+                        .dateCreated(new Date()).build()
+        );
+
+
+
+        List<Product> found = productRepository.findByCategory(cat1);
+        assertEquals(1, found.toArray().length);
+        assertEquals(777.00, found.get(0).getPriceProduct());
     }
 }
