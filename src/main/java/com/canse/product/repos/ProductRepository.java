@@ -19,4 +19,14 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     @Query("select p from Product p where p.category =?1 ")
     List<Product> findByCategory(Category category);
+
+    List<Product> findByCategoryId(Long categoryId);
+    List<Product> findByOrderByNameProductAsc();
+    List<Product> findByOrderByNameProductDesc();
+
+    @Query("select p from Product p order by p.nameProduct ASC, p.priceProduct DESC")
+    List<Product> filterProductByNameAndPrice();
+
+//    ----
+
 }

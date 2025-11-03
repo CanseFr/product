@@ -224,4 +224,128 @@ class ProductApplicationTests {
         assertEquals(1, found.toArray().length);
         assertEquals(777.00, found.get(0).getPriceProduct());
     }
+
+    @Test
+    @Rollback
+    void findByCategoryId_shouldReturnEntity() {
+
+        Category cat1 = new Category();
+        Category cat2 = new Category();
+        cat1.setName("cat-1");
+        cat2.setName("cat-2");
+        categoryRepository.save(cat1);
+        categoryRepository.save(cat2);
+
+        productRepository.save(
+                Product.builder()
+                        .nameProduct("MacBook")
+                        .priceProduct(777.00)
+                        .category(cat1)
+                        .dateCreated(new Date()).build()
+        );
+        productRepository.save(
+                Product.builder()
+                        .nameProduct("MacBook")
+                        .priceProduct(666.00)
+                        .category(cat2)
+                        .dateCreated(new Date()).build()
+        );
+
+
+
+        List<Product> found = productRepository.findByCategoryId(cat1.getId());
+        assertEquals(1, found.toArray().length);
+        assertEquals(777.00, found.get(0).getPriceProduct());
+    }
+
+    @Test
+    @Rollback
+    void findByNameProductAsc_shouldReturnEntitiesInOrderAsc() {
+
+        productRepository.save(
+                Product.builder()
+                        .nameProduct("MacBook A")
+                        .priceProduct(777.00)
+                        .dateCreated(new Date()).build()
+        );
+        productRepository.save(
+                Product.builder()
+                        .nameProduct("MacBook B")
+                        .priceProduct(666.00)
+                        .dateCreated(new Date()).build()
+        );
+
+
+
+        List<Product> found = productRepository.findByOrderByNameProductAsc();
+        assertEquals(2, found.toArray().length);
+        assertEquals("MacBook A", found.get(0).getNameProduct());
+        assertEquals("MacBook B", found.get(1).getNameProduct());
+    }
+
+    @Test
+    @Rollback
+    void findByNameProductDsc_shouldReturnEntitiesInOrderDsc() {
+
+        productRepository.save(
+                Product.builder()
+                        .nameProduct("MacBook A")
+                        .priceProduct(777.00)
+                        .dateCreated(new Date()).build()
+        );
+        productRepository.save(
+                Product.builder()
+                        .nameProduct("MacBook B")
+                        .priceProduct(666.00)
+                        .dateCreated(new Date()).build()
+        );
+
+
+
+        List<Product> found = productRepository.findByOrderByNameProductDesc();
+        assertEquals(2, found.toArray().length);
+        assertEquals("MacBook B", found.get(0).getNameProduct());
+        assertEquals("MacBook A", found.get(1).getNameProduct());
+    }
+
+    @Test
+    @Rollback
+    void filterProductByNameAndPrice_shouldReturnEntitiesInOrderNameAndPrice() {
+
+        productRepository.save(
+                Product.builder()
+                        .nameProduct("MacBook A")
+                        .priceProduct(777.00)
+                        .dateCreated(new Date()).build()
+        );
+        productRepository.save(
+                Product.builder()
+                        .nameProduct("MacBook B")
+                        .priceProduct(666.00)
+                        .dateCreated(new Date()).build()
+        );
+        productRepository.save(
+                Product.builder()
+                        .nameProduct("MacBook C")
+                        .priceProduct(333.00)
+                        .dateCreated(new Date()).build()
+        );
+        productRepository.save(
+                Product.builder()
+                        .nameProduct("MacBook D")
+                        .priceProduct(333.00)
+                        .dateCreated(new Date()).build()
+        );
+
+
+
+        List<Product> found = productRepository.findByOrderByNameProductDesc();
+
+        assertEquals(4, found.toArray().length);
+        assertEquals("MacBook D", found.get(0).getNameProduct());
+        assertEquals("MacBook C", found.get(1).getNameProduct());
+        assertEquals("MacBook B", found.get(2).getNameProduct());
+        assertEquals("MacBook A", found.get(3).getNameProduct());
+
+    }
 }
