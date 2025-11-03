@@ -14,3 +14,6 @@ Etudier  @RepositoryRestResource(path="rest")
 aves son pom.xml
 
 http://localhost:8080/product/rest/search permet de recuperer les url/ctrl generé depuis les methode du repository de facon automatique 
+
+
+Regarder de plus pret RepositoryRestConfiguration
