@@ -17,3 +17,5 @@ http://localhost:8080/product/rest/search permet de recuperer les url/ctrl gener
 
 
 Regarder de plus pret RepositoryRestConfiguration
+
+Etudier projection
