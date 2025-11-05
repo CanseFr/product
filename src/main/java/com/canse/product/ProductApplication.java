@@ -22,3 +22,4 @@ public class ProductApplication implements CommandLineRunner {
         repositoryRestConfiguration.exposeIdsFor(Product.class);
     }
 }
+
