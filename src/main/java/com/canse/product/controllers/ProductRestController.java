@@ -45,5 +45,10 @@ public class ProductRestController {
         return productService.findByCategoryId(id);
     }
 
+    @RequestMapping(value = "/prod-by-name/{name}",method = RequestMethod.GET)
+    public List<Product> getProductByName(@PathVariable("name") String name){
+        return productService.findByNameProduct(name);
+    }
+
 
 }

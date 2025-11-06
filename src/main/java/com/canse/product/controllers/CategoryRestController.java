@@ -9,20 +9,31 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/cat")
-@CrossOrigin
+@CrossOrigin()
 public class CategoryRestController {
 
     @Autowired
     CategoryService categoryService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<Category> getAllCategories(){
+    public List<Category> getAllCategories() {
         return categoryService.getAllCategories();
     }
 
-    @RequestMapping(value="/{id}",method = RequestMethod.GET)
-    public Category getCategoriesById(@PathVariable("id") Long id){
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public Category getCategoriesById(@PathVariable("id") Long id) {
         return categoryService.getCategoryById(id);
     }
+
+    @RequestMapping(method = RequestMethod.POST)
+    public Category createCategory(@RequestBody Category category) {
+        return categoryService.saveCategory(category);
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public void deleteCategory(@PathVariable Long id) {
+        categoryService.deleteCategoryById(id);
+    }
+
 
 }
