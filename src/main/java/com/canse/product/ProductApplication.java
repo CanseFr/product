@@ -2,17 +2,12 @@ package com.canse.product;
 
 import com.canse.product.entities.Category;
 import com.canse.product.entities.Product;
-import com.canse.product.entities.Role;
-import com.canse.product.entities.User;
 import com.canse.product.services.UserService;
-import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @SpringBootApplication
 public class ProductApplication implements CommandLineRunner {
@@ -44,9 +39,6 @@ public class ProductApplication implements CommandLineRunner {
 //        userService.addRoleToUser("canse", "USER");
 //    }
 
-    @Bean
-    BCryptPasswordEncoder getBeanBCrypt() {
-        return new BCryptPasswordEncoder();
-    }
+
 }
 
