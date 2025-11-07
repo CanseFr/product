@@ -19,3 +19,7 @@ http://localhost:8080/product/rest/search permet de recuperer les url/ctrl gener
 Regarder de plus pret RepositoryRestConfiguration
 
 Etudier projection
+
+
+
+@Transicationnal sur la modofication do'bject et cas d'erreur, voir userServiceImpl
