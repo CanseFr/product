@@ -52,8 +52,8 @@ public class JWTAuthentication extends UsernamePasswordAuthenticationFilter {
                 .create()
                 .withSubject(user.getUsername())
                 .withArrayClaim("roles", roles.toArray(new String[roles.size()]))
-                .withExpiresAt(new Date(System.currentTimeMillis() + 10 * 24 * 60 * 60 * 1000))
-                .sign(Algorithm.HMAC256("canse"));
+                .withExpiresAt(new Date(System.currentTimeMillis() + SecParams.EXP_TIME))
+                .sign(Algorithm.HMAC256(SecParams.SECRET));
 
         response.addHeader("Authorization", "Bearer " + jwt);
     }
