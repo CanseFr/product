@@ -22,5 +22,4 @@ public class UserRestController {
     public List<User> getUsers() {
         return userService.findAllUsers();
     }
-
 }
