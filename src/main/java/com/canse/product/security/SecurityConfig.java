@@ -21,9 +21,11 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(
-                        request -> request.requestMatchers("/api/test") // Rajouter ici le login custom path
+                .authorizeHttpRequests(request -> request
+                        .requestMatchers("/api/login") // Rajouter ici le login custom path
                         .permitAll()
+                        .requestMatchers("/user")
+                        .hasAnyAuthority("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(new JWTAuthentication(authManager), UsernamePasswordAuthenticationFilter.class)
