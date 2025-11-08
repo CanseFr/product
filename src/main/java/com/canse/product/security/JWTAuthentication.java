@@ -26,6 +26,7 @@ public class JWTAuthentication extends UsernamePasswordAuthenticationFilter {
     public JWTAuthentication(AuthenticationManager authenticationManager) {
         super();
         this.authenticationManager = authenticationManager;
+//        setFilterProcessesUrl("/login-custom-path");
     }
 
     @Override
@@ -42,7 +43,7 @@ public class JWTAuthentication extends UsernamePasswordAuthenticationFilter {
     }
 
     @Override
-    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
+    public void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
 
         org.springframework.security.core.userdetails.User user = (org.springframework.security.core.userdetails.User) authResult.getPrincipal();
         List<String> roles = new ArrayList<>();

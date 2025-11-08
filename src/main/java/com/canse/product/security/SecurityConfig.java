@@ -22,9 +22,9 @@ public class SecurityConfig {
         http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(
-                        request -> request.requestMatchers("/auth/login")
+                        request -> request.requestMatchers("/api/test") // Rajouter ici le login custom path
                         .permitAll()
-//                        .anyRequest().authenticated()
+                        .anyRequest().authenticated()
                 ).addFilterBefore(new JWTAuthentication(authManager), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
