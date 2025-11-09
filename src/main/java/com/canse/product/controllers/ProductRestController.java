@@ -15,37 +15,37 @@ public class ProductRestController {
     @Autowired
     ProductService productService;
 
-    @RequestMapping(method = RequestMethod.GET)
+    @GetMapping()
     public List<Product> getAllProducts(){
         return productService.getAllProducts();
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @GetMapping("/{id}")
     public Product getProductById(@PathVariable("id") Long id){
         return productService.getProductById(id);
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @PostMapping("/{id}")
     public Product createProduct(@RequestBody Product product){
         return productService.saveProduct(product);
     }
 
-    @RequestMapping(method = RequestMethod.PUT)
+    @PutMapping("/{id}")
     public Product updateProduct(@RequestBody Product product){
         return productService.updateProduct(product);
     }
 
-    @RequestMapping(value = "/{id}",method = RequestMethod.DELETE)
+    @DeleteMapping("/{id}")
     public void deleteProduct(@PathVariable("id") Long id){
         productService.deleteProductById(id);
     }
 
-    @RequestMapping(value = "/prod-by-cat/{idCat}",method = RequestMethod.GET)
+    @DeleteMapping("/prod-by-cat/{idCat}")
     public List<Product> getProductByCatId(@PathVariable("idCat") Long id){
         return productService.findByCategoryId(id);
     }
 
-    @RequestMapping(value = "/prod-by-name/{name}",method = RequestMethod.GET)
+    @GetMapping("/prod-by-name/{name}")
     public List<Product> getProductByName(@PathVariable("name") String name){
         return productService.findByNameProduct(name);
     }

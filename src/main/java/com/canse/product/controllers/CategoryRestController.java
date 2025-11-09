@@ -15,22 +15,22 @@ public class CategoryRestController {
     @Autowired
     CategoryService categoryService;
 
-    @RequestMapping(method = RequestMethod.GET)
+    @GetMapping()
     public List<Category> getAllCategories() {
         return categoryService.getAllCategories();
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @GetMapping( "/{id}")
     public Category getCategoriesById(@PathVariable("id") Long id) {
         return categoryService.getCategoryById(id);
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @PostMapping()
     public Category createCategory(@RequestBody Category category) {
         return categoryService.saveCategory(category);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @DeleteMapping("/{id}")
     public void deleteCategory(@PathVariable Long id) {
         categoryService.deleteCategoryById(id);
     }
