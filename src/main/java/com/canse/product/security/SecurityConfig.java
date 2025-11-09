@@ -1,5 +1,6 @@
 package com.canse.product.security;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,6 +10,10 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+
+import java.util.Collections;
 
 @Configuration
 @EnableWebSecurity
@@ -21,12 +26,27 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .csrf(csrf -> csrf.disable())
+                .cors(cors -> cors.configurationSource(new CorsConfigurationSource() {
+                    @Override
+                    public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
+
+                        CorsConfiguration cors = new CorsConfiguration();
+                        cors.setAllowedOrigins(Collections.singletonList("http://localhost:4200"));
+                        cors.setAllowedMethods(Collections.singletonList("*"));
+                        cors.setAllowedHeaders(Collections.singletonList("*"));
+                        cors.setAllowCredentials(true);
+                        cors.setExposedHeaders(Collections.singletonList("Authorization"));
+                        cors.setMaxAge(3600L);
+
+                        return cors;
+                    }
+                }))
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("/api/login") // Rajouter ici le login custom path
-                        .permitAll()
-                        .requestMatchers("/user")
-                        .hasAnyAuthority("ADMIN")
-                        .anyRequest().authenticated()
+                                .requestMatchers("/api/login").permitAll() // Rajouter ici le login custom path
+                                .requestMatchers("/user").hasAnyAuthority("ADMIN")
+                                .requestMatchers("/product").hasAnyAuthority("ADMIN")
+//                        .requestMatchers(HttpMethod.DELETE,"/product").hasAnyAuthority("ADMIN")
+                                .anyRequest().authenticated()
                 )
                 .addFilterBefore(new JWTAuthentication(authManager), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
