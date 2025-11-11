@@ -23,3 +23,8 @@ Etudier projection
 
 
 @Transicationnal sur la modofication do'bject et cas d'erreur, voir userServiceImpl
+
+@PreAuthorize("hasAuthority('ADMIN')")
+Sur controlelr comme sur service impl ...
+
+Etudier la securité

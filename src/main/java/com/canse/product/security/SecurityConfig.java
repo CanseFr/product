@@ -44,11 +44,13 @@ public class SecurityConfig {
                     }
                 }))
                 .authorizeHttpRequests(request -> request
-                                .requestMatchers("/api/login").permitAll() // Rajouter ici le login custom path
-                                .requestMatchers("/user").hasAnyAuthority("ADMIN")
-                                .requestMatchers("/product").hasAnyAuthority("ADMIN")
+                                .requestMatchers("/api/login").permitAll()
+                                .anyRequest().permitAll()
+//                                .requestMatchers("/api/login").permitAll() // Rajouter ici le login custom path
+//                                .requestMatchers("/user").hasAnyAuthority("ADMIN")
+//                                .requestMatchers("/product").hasAnyAuthority("ADMIN")
 //                        .requestMatchers(HttpMethod.DELETE,"/product").hasAnyAuthority("ADMIN")
-                                .anyRequest().authenticated()
+//                                .anyRequest().authenticated()
                 )
                 .addFilterBefore(new JWTAuthentication(authManager), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
