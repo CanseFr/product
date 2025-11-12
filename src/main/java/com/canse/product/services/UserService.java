@@ -1,5 +1,6 @@
 package com.canse.product.services;
 
+import com.canse.product.entities.RegistrationRequest;
 import com.canse.product.entities.Role;
 import com.canse.product.entities.User;
 
@@ -11,4 +12,5 @@ public interface UserService {
     Role addRole(Role role);
     User addRoleToUser(String username, String roleName);
     List<User> findAllUsers();
+    User registerUser(RegistrationRequest request);
 }

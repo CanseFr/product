@@ -2,25 +2,19 @@ package com.canse.product.controllers;
 
 import com.canse.product.entities.RegistrationRequest;
 import com.canse.product.entities.User;
-import com.canse.product.repos.UserRepository;
 import com.canse.product.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/auth")
 @CrossOrigin(origins = "*")
-@PreAuthorize("hasAuthority('ADMIN')")
-public class UserRestController {
+public class AuthRestController {
     @Autowired
     UserService userService;
 
-    @GetMapping()
-    public List<User> getUsers() {
-        return userService.findAllUsers();
+    @PostMapping("/register")
+    public User register(@RequestBody RegistrationRequest registrationRequest){
+        return userService.registerUser(registrationRequest);
     }
-
 }
