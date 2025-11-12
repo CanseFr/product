@@ -22,8 +22,4 @@ public class AuthRestController {
     public User verifyEmail(@PathVariable String token){
         return userService.validateToken(token);
     }
-    @GetMapping("/test")
-    public void test(){
-        userService.test();
-    }
 }
