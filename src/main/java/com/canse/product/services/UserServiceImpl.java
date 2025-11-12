@@ -8,6 +8,7 @@ import com.canse.product.exceptions.EmailAlreadyExistException;
 import com.canse.product.repos.RoleRepository;
 import com.canse.product.repos.UserRepository;
 import com.canse.product.repos.VerificationTokenRepository;
+import com.canse.product.utils.EmailSender;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -33,6 +34,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     VerificationTokenRepository verifTokenRepository;
+
+    @Autowired
+    EmailSender emailSender;
 
     @Override
     public User saveUser(User user) {
@@ -86,8 +90,9 @@ public class UserServiceImpl implements UserService {
 
         String code = this.generateCode();
         VerificationToken token = new VerificationToken(code, newUser);
-        token.setId(null);
         verifTokenRepository.save(token);
+
+        sendEmailUser(newUser, code);
 
         return userRepository.save(newUser);
     }
@@ -96,6 +101,12 @@ public class UserServiceImpl implements UserService {
         Random random = new Random();
         int code = 100000 + random.nextInt(900000);
         return Integer.toString(code);
+    }
+
+    @Override
+    public void sendEmailUser(User user, String code) {
+        String body = "Bonjour " + "<h1>" + user.getUsername() + "</h1>" + " Votre code de validation est " + "<h1>" + code + "</h1>";
+        emailSender.sendEmail(user.getEmail(), body);
     }
 
 }

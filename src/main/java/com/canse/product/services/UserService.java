@@ -13,4 +13,5 @@ public interface UserService {
     User addRoleToUser(String username, String roleName);
     List<User> findAllUsers();
     User registerUser(RegistrationRequest request);
+    public void sendEmailUser(User user, String code);
 }

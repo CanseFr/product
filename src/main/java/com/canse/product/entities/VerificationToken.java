@@ -1,10 +1,8 @@
 package com.canse.product.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.context.annotation.Primary;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -15,7 +13,7 @@ import java.util.Date;
 public class VerificationToken {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id ;
+    private Long id;
     private String token;
     private Date expirationTime;
     private static final int EXPIRATION_TIME = 15;
