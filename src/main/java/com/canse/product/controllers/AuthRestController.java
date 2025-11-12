@@ -17,4 +17,9 @@ public class AuthRestController {
     public User register(@RequestBody RegistrationRequest registrationRequest){
         return userService.registerUser(registrationRequest);
     }
+
+    @GetMapping("verify-email/{token}")
+    public User verifyEmail(@PathVariable String token){
+        return userService.validateToken(token);
+    }
 }

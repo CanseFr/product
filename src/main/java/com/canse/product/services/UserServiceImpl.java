@@ -5,6 +5,8 @@ import com.canse.product.entities.Role;
 import com.canse.product.entities.User;
 import com.canse.product.entities.VerificationToken;
 import com.canse.product.exceptions.EmailAlreadyExistException;
+import com.canse.product.exceptions.ExpiredTokenException;
+import com.canse.product.exceptions.InvalidTokenException;
 import com.canse.product.repos.RoleRepository;
 import com.canse.product.repos.UserRepository;
 import com.canse.product.repos.VerificationTokenRepository;
@@ -14,10 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
 
 @Transactional
 @Service
@@ -107,6 +106,23 @@ public class UserServiceImpl implements UserService {
     public void sendEmailUser(User user, String code) {
         String body = "Bonjour " + "<h1>" + user.getUsername() + "</h1>" + " Votre code de validation est " + "<h1>" + code + "</h1>";
         emailSender.sendEmail(user.getEmail(), body);
+    }
+
+    @Override
+    public User validateToken(String code) {
+        VerificationToken token = verifTokenRepository.findByToken(code);
+        if(token == null){
+            throw  new InvalidTokenException("Invalide token !");
+        }
+        User user = token.getUser();
+        Calendar calendar = Calendar.getInstance();
+        if((token.getExpirationTime().getTime() - calendar.getTime().getTime()) <= 0){
+            verifTokenRepository.delete(token);
+            throw new ExpiredTokenException("Expired token !");
+        }
+        user.setEnabled(true);
+        userRepository.save(user);
+        return user;
     }
 
 }
