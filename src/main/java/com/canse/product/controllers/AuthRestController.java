@@ -18,8 +18,12 @@ public class AuthRestController {
         return userService.registerUser(registrationRequest);
     }
 
-    @GetMapping("verify-email/{token}")
+    @GetMapping("/verify-email/{token}")
     public User verifyEmail(@PathVariable String token){
         return userService.validateToken(token);
+    }
+    @GetMapping("/test")
+    public void test(){
+        userService.test();
     }
 }

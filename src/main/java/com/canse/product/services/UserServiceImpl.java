@@ -125,4 +125,8 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
+    public void test(){
+        emailSender.sendEmail("jucansell@gmail.com", "salute");
+    }
+
 }

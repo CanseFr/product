@@ -26,6 +26,8 @@ public class EmailService implements EmailSender {
             helper.setSubject("Confirmer votre inscription");
             helper.setFrom("collectverythings@gmail.com");
 
+            mailSender.send(mimeMessage);
+
         } catch (MessagingException e) {
 
             throw new IllegalStateException("Failed to send email !");
