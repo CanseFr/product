@@ -28,3 +28,8 @@ Etudier projection
 Sur controlelr comme sur service impl ...
 
 Etudier la securité
+
+
+public class EmailAlreadyExistException extends RuntimeException{
+@ControllerAdvice
+@ExceptionHandler(EmailAlreadyExistException.class)
