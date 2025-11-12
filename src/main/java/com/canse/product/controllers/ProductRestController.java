@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/product")
-@CrossOrigin
+@CrossOrigin("*")
 public class ProductRestController {
 
     @Autowired
@@ -32,7 +32,7 @@ public class ProductRestController {
         return productService.saveProduct(product);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping()
     @PreAuthorize("hasAuthority('ADMIN')")
     public Product updateProduct(@RequestBody Product product){
         return productService.updateProduct(product);
