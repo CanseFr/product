@@ -44,13 +44,18 @@ public class SecurityConfig {
                     }
                 }))
                 .authorizeHttpRequests(request -> request
-                                .requestMatchers("/api/login").permitAll()
+                                .requestMatchers("/api/login","api/auth/register").permitAll() // "api/auth/register" ici ne sert a rien c'est juste pour monter que l'on peut passer plusieur elements
                                 .anyRequest().permitAll()
 //                                .requestMatchers("/api/login").permitAll() // Rajouter ici le login custom path
 //                                .requestMatchers("/user").hasAnyAuthority("ADMIN")
 //                                .requestMatchers("/product").hasAnyAuthority("ADMIN")
 //                        .requestMatchers(HttpMethod.DELETE,"/product").hasAnyAuthority("ADMIN")
 //                                .anyRequest().authenticated()
+
+//                                .requestMatchers("/product").permitAll() // Bloque tout sauf l'endpoint product
+//                                .anyRequest().authenticated()
+
+
                 )
                 .addFilterBefore(new JWTAuthentication(authManager), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
