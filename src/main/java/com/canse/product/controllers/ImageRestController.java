@@ -21,5 +21,10 @@ public class ImageRestController {
         return imageService.uploadImage(file);
     }
 
+    @GetMapping("/{id}")
+    public Image getImageDetails(@PathVariable("id") Long id) throws IOException {
+        return imageService.getImageDetails(id);
+    }
+
 
 }
