@@ -2,17 +2,22 @@ package com.canse.product.services;
 
 import com.canse.product.entities.Category;
 import com.canse.product.entities.Product;
+import com.canse.product.repos.ImageRepository;
 import com.canse.product.repos.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class ProductServiceImpl implements ProductService {
 
     @Autowired
     ProductRepository productRepository;
+
+    @Autowired
+    ImageRepository imageRepository;
 
     @Override
     public Product saveProduct(Product product) {
@@ -21,7 +26,13 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product updateProduct(Product product) {
-        return productRepository.save(product);
+        Long oldProdImgId = this.getProductById(product.getId()).getImage().getId();
+        Long newProdImgId = product.getImage().getId();
+        Product prodUpdate = productRepository.save(product);
+        if(!Objects.equals(oldProdImgId, newProdImgId)){
+            imageRepository.deleteById(oldProdImgId);
+        }
+        return prodUpdate;
     }
 
     @Override
