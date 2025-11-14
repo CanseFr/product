@@ -26,12 +26,12 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product updateProduct(Product product) {
-        Long oldProdImgId = this.getProductById(product.getId()).getImage().getId();
-        Long newProdImgId = product.getImage().getId();
+//        Long oldProdImgId = this.getProductById(product.getId()).getImage().getId();
+//        Long newProdImgId = product.getImage().getId();
         Product prodUpdate = productRepository.save(product);
-        if(!Objects.equals(oldProdImgId, newProdImgId)){
-            imageRepository.deleteById(oldProdImgId);
-        }
+//        if(!Objects.equals(oldProdImgId, newProdImgId)){
+//            imageRepository.deleteById(oldProdImgId);
+//        }
         return prodUpdate;
     }
 

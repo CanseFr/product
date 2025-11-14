@@ -1,5 +1,6 @@
 package com.canse.product.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,7 +24,9 @@ public class Image {
     @Lob
     private byte[] image;
 
-    @OneToOne()
+    @ManyToOne()
+    @JoinColumn(name = "PRODUCT_ID")
+    @JsonIgnore
     Product  product;
 
 }

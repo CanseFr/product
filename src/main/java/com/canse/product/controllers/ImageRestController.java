@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequestMapping("/image")
@@ -16,15 +17,22 @@ public class ImageRestController {
     @Autowired
     ImageService imageService;
 
-    @PostMapping("/upload")
-    public Image uploadImage(@RequestParam("image") MultipartFile file) throws IOException {
-        return imageService.uploadImage(file);
+    @PostMapping("/upload/{idProduct}")
+//    @PreAuthorize("hasAuthority('ADMIN')")
+    public Image uploadImage(@RequestParam("image") MultipartFile file, @PathVariable("idProduct") Long idProduct) throws IOException {
+        return imageService.uploadImage(file, idProduct);
     }
 
-    @GetMapping("/{id}")
-    public Image getImageDetails(@PathVariable("id") Long id) throws IOException {
-        return imageService.getImageDetails(id);
+    @GetMapping("/{idProduct}")
+    public List<Image> getImageDetails(@PathVariable("idProduct") Long idProduct) throws IOException {
+        return imageService.getImageDetails(idProduct);
     }
 
+
+    @DeleteMapping("/{idProduct}")
+//    @PreAuthorize("hasAuthority('ADMIN')")
+    public void deleteImage(@PathVariable("idProduct") Long idProduct) throws IOException {
+        imageService.deleteImage(idProduct);
+    }
 
 }

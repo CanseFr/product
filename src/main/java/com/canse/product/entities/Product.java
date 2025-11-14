@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -23,6 +24,6 @@ public class Product {
     @ManyToOne()
     private Category category;
 
-    @OneToOne()
-    private  Image image;
+    @OneToMany(mappedBy = "product")
+    private List<Image> images;
 }
