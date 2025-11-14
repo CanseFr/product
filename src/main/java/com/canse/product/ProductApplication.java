@@ -42,10 +42,12 @@ public class ProductApplication implements CommandLineRunner {
 //        User admin =  User.builder()
 //                .username("admin")
 //                .password("admin")
+//                .enabled(true)
 //                .build();
 //        User user =  User.builder()
 //                .username("canse")
 //                .password("canse")
+//                .enabled(true)
 //                .build();
 //
 //        userService.saveUser(admin);
