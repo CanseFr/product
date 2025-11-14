@@ -26,7 +26,7 @@ public class ProductRestController {
         return productService.getProductById(id);
     }
 
-    @PostMapping("/{id}")
+    @PostMapping()
     @PreAuthorize("hasAuthority('ADMIN')")
     public Product createProduct(@RequestBody Product product){
         return productService.saveProduct(product);

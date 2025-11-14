@@ -12,12 +12,17 @@ import java.util.Date;
 @Builder
 @Entity
 public class Product {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nameProduct;
     private Double priceProduct;
     private Date dateCreated;
+
     @ManyToOne()
     private Category category;
+
+    @OneToOne()
+    private  Image image;
 }
