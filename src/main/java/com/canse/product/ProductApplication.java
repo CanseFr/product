@@ -2,12 +2,18 @@ package com.canse.product;
 
 import com.canse.product.entities.Category;
 import com.canse.product.entities.Product;
+import com.canse.product.entities.Role;
+import com.canse.product.entities.User;
 import com.canse.product.services.UserService;
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @SpringBootApplication
 public class ProductApplication implements CommandLineRunner {
@@ -29,16 +35,25 @@ public class ProductApplication implements CommandLineRunner {
 
 //    @PostConstruct
 //    void init() {
-//        userService.addRole(new Role(null,"ADMIN"));
-//        userService.addRole(new Role(null,"User"));
+//         userService.addRole(new Role(null,"ADMIN"));
+//        userService.addRole(new Role(null,"USER"));
 //
-//        userService.saveUser(new User(null, "admin","admin",true, null));
-//        userService.saveUser(new User(null, "canse","admin",true, null));
+//
+//        User admin =  User.builder()
+//                .username("admin")
+//                .password("admin")
+//                .build();
+//        User user =  User.builder()
+//                .username("canse")
+//                .password("canse")
+//                .build();
+//
+//        userService.saveUser(admin);
+//        userService.saveUser(user);
 //
 //        userService.addRoleToUser("admin", "ADMIN");
 //        userService.addRoleToUser("canse", "USER");
 //    }
-
 
 }
 
