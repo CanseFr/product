@@ -30,6 +30,13 @@ Service Spring Boot dont le cœur de métier est la **gestion des produits**, d�
 
 ---
 
+### 🕵🏻‍♀️ Env's
+
+```
+ADMINUSERNAME=username
+ADMINPASSWORD=password
+```
+
 ## 🧪 Méthodologie TDD
 
 1. **Écrire le test** avant la fonctionnalité (test rouge).
