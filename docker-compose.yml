@@ -1,0 +1,67 @@
+#version: "3.9"
+#
+#services:
+#  db:
+#    image: mysql:8.0
+#    container_name: product-mysql
+#    restart: unless-stopped
+#    environment:
+#      MYSQL_ROOT_PASSWORD: rootpassword
+#      MYSQL_DATABASE: product_db
+#      MYSQL_USER: product_user
+#      MYSQL_PASSWORD: product_password
+#    ports:
+#      - "3306:3306"
+#    volumes:
+#      - db_data:/var/lib/mysql
+#
+#  backend:
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+#    container_name: product-api
+#    restart: unless-stopped
+#    depends_on:
+#      - db
+#    environment:
+#      DB_HOST: db
+#      DB_PORT: 3306
+#      DB_NAME: product_db
+#      DB_USER: product_user
+#      DB_PASSWORD: product_password
+#    ports:
+#      - "8080:8080"
+#
+#volumes:
+#  db_data:
+
+services:
+  product-mysql:
+    image: mysql:8.0
+    container_name: product-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: product_db
+      MYSQL_USER: product_user
+      MYSQL_PASSWORD: product_pass
+    ports:
+      - "3306:3306"
+    volumes:
+      - product-mysql-data:/var/lib/mysql
+
+  product-api:
+    image: cansefr/product-api:latest   # <-- image venant de Docker Hub
+    container_name: product-api
+    depends_on:
+      - product-mysql
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://product-mysql:3306/product_db
+      SPRING_DATASOURCE_USERNAME: product_user
+      SPRING_DATASOURCE_PASSWORD: product_pass
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+
+volumes:
+  product-mysql-data:
