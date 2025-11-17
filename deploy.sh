@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-cd /root/product-api
+cd product-api
 
 docker compose pull
 docker compose up -d
