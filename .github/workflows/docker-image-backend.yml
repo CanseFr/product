@@ -137,5 +137,5 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
           script: |
-            cd /root/product-api
+            cd product-api
             ./deploy.sh
