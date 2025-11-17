@@ -51,15 +51,30 @@ jobs:
           script: |
             IMAGE_NAME=${{ secrets.DOCKER_USERNAME }}/product-api:latest
             CONTAINER_NAME=product-api
+            NETWORK_NAME=product-net
 
-            echo "Stopping existing container (if any)..."
+            # Crée le réseau s'il n'existe pas
+            if ! docker network ls --format '{{.Name}}' | grep -q "^$NETWORK_NAME$"; then
+              docker network create $NETWORK_NAME
+            fi
+
+            echo "Stopping existing backend container (if any)..."
             if [ "$(docker ps -aq -f name=$CONTAINER_NAME)" ]; then
               docker stop $CONTAINER_NAME || true
               docker rm $CONTAINER_NAME || true
             fi
 
-            echo "Pulling latest image..."
+            echo "Pulling latest backend image..."
             docker pull $IMAGE_NAME
 
-            echo "Starting new backend container on port 8080..."
-            docker run -d --name $CONTAINER_NAME -p 8080:8080 $IMAGE_NAME
+            echo "Starting backend container..."
+            docker run -d \
+              --name $CONTAINER_NAME \
+              --network $NETWORK_NAME \
+              -e DB_HOST=product-mysql \
+              -e DB_PORT=3306 \
+              -e DB_NAME=product_db \
+              -e DB_USER=product_user \
+              -e DB_PASSWORD=product_password \
+              -p 8080:8080 \
+              $IMAGE_NAME
