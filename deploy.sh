@@ -1,7 +1,7 @@
-#!/usr/bin/env bash
+#!/bin/bash
 set -e
 
-cd product-api
+cd "$(dirname "$0")"
 
 docker compose pull
 docker compose up -d
