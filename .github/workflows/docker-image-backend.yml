@@ -1,90 +1,9 @@
-#name: Docker Image CI - Backend
-#
-#on:
-#  push:
-#    branches: [ "main" ]
-#  pull_request:
-#    branches: [ "main" ]
-#
-#jobs:
-#  push_to_registry:
-#    name: Build & Push backend image to Docker Hub and deploy
-#    runs-on: ubuntu-latest
-#    permissions:
-#      packages: write
-#      contents: read
-#
-#    steps:
-#      - name: Check out the repo
-#        uses: actions/checkout@v4
-#
-#      - name: Set up Java
-#        uses: actions/setup-java@v4
-#        with:
-#          distribution: 'temurin'
-#          java-version: '21'
-#
-##      - name: Run tests (optionnel)
-##        run: mvn -B test
-#
-#      - name: Log in to Docker Hub
-#        uses: docker/login-action@v3
-#        with:
-#          username: ${{ secrets.DOCKER_USERNAME }}
-#          password: ${{ secrets.DOCKER_PASSWORD }}
-#
-#      - name: Build and push Docker image
-#        uses: docker/build-push-action@v6
-#        with:
-#          context: .
-#          file: ./Dockerfile
-#          push: true
-#          tags: ${{ secrets.DOCKER_USERNAME }}/product-api:latest
-#
-#      - name: Deploy backend on remote server via SSH
-#        uses: appleboy/ssh-action@v1
-#        with:
-#          host: ${{ secrets.HOST }}
-#          username: ${{ secrets.USER }}
-#          password: ${{ secrets.PASSWORD }}
-#          port: ${{ secrets.PORT }}
-#          script: |
-#            IMAGE_NAME=${{ secrets.DOCKER_USERNAME }}/product-api:latest
-#            CONTAINER_NAME=product-api
-#            NETWORK_NAME=product-net
-#
-#            # Crée le réseau s'il n'existe pas
-#            if ! docker network ls --format '{{.Name}}' | grep -q "^$NETWORK_NAME$"; then
-#              docker network create $NETWORK_NAME
-#            fi
-#
-#            echo "Stopping existing backend container (if any)..."
-#            if [ "$(docker ps -aq -f name=$CONTAINER_NAME)" ]; then
-#              docker stop $CONTAINER_NAME || true
-#              docker rm $CONTAINER_NAME || true
-#            fi
-#
-#            echo "Pulling latest backend image..."
-#            docker pull $IMAGE_NAME
-#
-#            echo "Starting backend container..."
-#            docker run -d \
-#              --name $CONTAINER_NAME \
-#              --network $NETWORK_NAME \
-#              -e DB_HOST=product-mysql \
-#              -e DB_PORT=3306 \
-#              -e DB_NAME=product_db \
-#              -e DB_USER=product_user \
-#              -e DB_PASSWORD=product_password \
-#              -p 8080:8080 \
-#              $IMAGE_NAME
-
 name: Build & Deploy product-api
 
 on:
   push:
     branches:
-      - main   # adapte si ta branche principale a un autre nom
+      - main
 
 jobs:
   build-and-push:
@@ -129,7 +48,20 @@ jobs:
     needs: build-and-push
 
     steps:
-      - name: Deploy to server via SSH
+      - name: Checkout repo (pour récupérer deploy.sh & docker-compose.yml)
+        uses: actions/checkout@v4
+
+      - name: Copier les fichiers de déploiement sur le serveur
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USER }}
+          password: ${{ secrets.PASSWORD }}
+          port: ${{ secrets.PORT }}
+          source: "deploy.sh,docker-compose.yml"
+          target: "~/product-api"
+
+      - name: Déployer sur le serveur via SSH
         uses: appleboy/ssh-action@v1.2.0
         with:
           host: ${{ secrets.HOST }}
@@ -137,5 +69,6 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
           script: |
-            cd product-api
+            cd ~/product-api
+            chmod +x deploy.sh
             ./deploy.sh
