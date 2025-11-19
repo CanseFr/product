@@ -33,3 +33,8 @@ Etudier la securité
 public class EmailAlreadyExistException extends RuntimeException{
 @ControllerAdvice
 @ExceptionHandler(EmailAlreadyExistException.class)
+
+@Projection(name = "nameProduct", types = Product.class)
+public interface ProductProjection {
+public String getNameProduct();
+}
