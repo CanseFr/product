@@ -1,5 +1,6 @@
 package com.canse.product.controllers;
 
+import com.canse.product.dto.ProductDto;
 import com.canse.product.entities.Product;
 import com.canse.product.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,25 +18,25 @@ public class ProductRestController {
     ProductService productService;
 
     @GetMapping()
-    public List<Product> getAllProducts(){
+    public List<ProductDto> getAllProducts(){
         return productService.getAllProducts();
     }
 
     @GetMapping("/{id}")
-    public Product getProductById(@PathVariable("id") Long id){
+    public ProductDto getProductById(@PathVariable("id") Long id){
         return productService.getProductById(id);
     }
 
     @PostMapping()
     @PreAuthorize("hasAuthority('ADMIN')")
-    public Product createProduct(@RequestBody Product product){
-        return productService.saveProduct(product);
+    public ProductDto createProduct(@RequestBody ProductDto productDto){
+        return productService.saveProduct(productDto);
     }
 
     @PutMapping()
     @PreAuthorize("hasAuthority('ADMIN')")
-    public Product updateProduct(@RequestBody Product product){
-        return productService.updateProduct(product);
+    public ProductDto updateProduct(@RequestBody ProductDto productDto){
+        return productService.updateProduct(productDto);
     }
 
     @DeleteMapping("/{id}")
