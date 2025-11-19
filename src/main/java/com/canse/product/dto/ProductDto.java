@@ -22,5 +22,7 @@ public class ProductDto {
     private Double priceProduct;
     private Date dateCreated;
     private Category category;
+//    private String nameCat;
+//    Ici le model mapper va chercher les attribut existant dans l'object, pour cela il aurait fallu nommer name de category nameCat
     private List<Image> images;
 }

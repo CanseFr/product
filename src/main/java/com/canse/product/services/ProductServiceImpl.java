@@ -5,6 +5,9 @@ import com.canse.product.entities.Category;
 import com.canse.product.entities.Product;
 import com.canse.product.repos.ImageRepository;
 import com.canse.product.repos.ProductRepository;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
+import org.modelmapper.spi.MatchingStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +24,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     ImageRepository imageRepository;
+
+    @Autowired
+    ModelMapper modelMapper;
 
     @Override
     public ProductDto saveProduct(ProductDto product) {
@@ -120,25 +126,33 @@ public class ProductServiceImpl implements ProductService {
 //        productDto.setCategory(product.getCategory());
 //        productDto.setImages(product.getImages());
 //        return productDto;
+
 //        With builder
-        return ProductDto.builder()
-                .id(product.getId())
-                .priceProduct(product.getPriceProduct())
-                .nameProduct(product.getNameProduct())
-                .dateCreated(product.getDateCreated())
-                .category(product.getCategory())
-                .images(product.getImages())
-                .build();
+//        return ProductDto.builder()
+//                .id(product.getId())
+//                .priceProduct(product.getPriceProduct())
+//                .nameProduct(product.getNameProduct())
+//                .dateCreated(product.getDateCreated())
+//                .category(product.getCategory())
+//                .images(product.getImages())
+//                .build();
+
+//        With Model Mapper
+        modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.LOOSE);
+        return modelMapper.map(product, ProductDto.class);
     }
 
     @Override
     public Product convertEntity(ProductDto productDto) {
+//        Product product = new Product();
+//        product.setId(productDto.getId());
+//        product.setNameProduct(productDto.getNameProduct());
+//        product.setPriceProduct(productDto.getPriceProduct());
+//        product.setCategory(productDto.getCategory());
+//        product.setImages(productDto.getImages());
+//        return product;
         Product product = new Product();
-        product.setId(productDto.getId());
-        product.setNameProduct(productDto.getNameProduct());
-        product.setPriceProduct(productDto.getPriceProduct());
-        product.setCategory(productDto.getCategory());
-        product.setImages(productDto.getImages());
+        product = modelMapper.map(productDto, Product.class);
         return product;
     }
 
